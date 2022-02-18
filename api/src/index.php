@@ -5,14 +5,6 @@ $user = $_ENV['DB_USER'];
 $pass = $_ENV['DB_PASSWORD'];
 $database = $_ENV['DB_DBNAME'];
 
-$conn = new mysqli($host, $user, $pass, $database);
-
-if ($conn->connect_error) {
-    die('Connection failed: ' . $conn->connect_error);
-} else {
-    echo 'Connected to MySQL server successfully!';
-}
-
 $users = [];
 
 $sql = '
@@ -23,12 +15,25 @@ $sql = '
         user
 ';
 
-if ($result = $conn->query($sql)) {
-    $users = $result->fetch_all(MYSQLI_ASSOC);
+try {
+    $connection = new PDO(
+        sprintf(
+            'mysql:host=%s;dbname=%s',
+            $host,
+            $database
+        ),
+        $user,
+        $pass
+    );
+
+    $result = $connection->query($sql);
+    $users = $result->fetchAll(PDO::FETCH_ASSOC);
+
+} catch (PDOException $e) {
+    echo '<br/> Error!: ' . $e->getMessage() . '<br/>';
 }
 
 foreach ($users as $user) {
-    echo '<br>';
-    echo '<br>';
     echo $user['username'] . ': ' . $user['password'];
+    echo '<br>';
 }
