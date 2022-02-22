@@ -7,11 +7,14 @@ services:
     depends_on:
       - db
     volumes:
-      - ./api/src:/var/www/html/
+      - ./api:/data/app
+      - ./scripts:/scripts
     ports:
       - '127.0.0.1:8080:80'
     env_file:
       - api/.env
+    extra_hosts:
+      - host.docker.internal:host-gateway
   db:
     image: mysql:8.0.28
     restart: always
