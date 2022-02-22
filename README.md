@@ -5,13 +5,11 @@ It contains Apache, PHP and MySQL.
 ### Preparation steps
 
 Create next files using `*.dist` examples.
+- `.env`
 - `api/.env`
-- `db/root_password.txt`
-- `db/password.txt`
 
 Choose any passwords for db users.
 The DB_HOST is a name of the database service in `docker-compose.yaml` file.
-You can find user and database name in this file too.
 
 ### Start application
 Start containers:
